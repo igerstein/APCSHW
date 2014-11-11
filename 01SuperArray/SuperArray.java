@@ -2,17 +2,23 @@ public class SuperArray{
     private Object[] data;
     private int currentLength = 0;
     public static void main(String[]args){
-	SuperArray L = new SuperArray(3);
-	System.out.println(L);
-	L.add(new Integer(1));
-	L.add(new Integer(2));
-	L.add(0, new Integer(3));
-    	System.out.println(L);
-	System.out.println(L.get(2));
-	L.set(0, new Integer(5));
-	System.out.println(L);
-	L.remove(0);
-	System.out.println(L);
+	try{
+	    SuperArray L = new SuperArray(3);
+	    System.out.println(L);
+	    L.add(new Integer(1));
+	    L.add(new Integer(2));
+	    L.add(0, new Integer(3));
+	    System.out.println(L);
+	    System.out.println(L.get(5));
+	    L.set(0, new Integer(5));
+	    System.out.println(L);
+	    L.remove(0);
+	    System.out.println(L);
+	}
+	catch (IndexOutOfBoundsException e){
+	    System.out.println("Error: index out of bounds");
+	    e.printStackTrace();
+	}
     }
     public SuperArray(){
 	data = new Object[10];
