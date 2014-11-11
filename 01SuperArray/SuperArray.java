@@ -49,7 +49,7 @@ public class SuperArray{
 	    data[index] = o;
 	    currentLength++;
 	}else{
-	    System.out.println("Error: index out of range");
+	    throw new IndexOutOfBoundsException();
 	}
     }
     public int size(){
@@ -73,8 +73,7 @@ public class SuperArray{
 	if (index >= 0 && index < currentLength){
 	    return data[index];
 	}else{
-	    System.out.println("Error: index out of range");
-	    return null;
+	    throw new IndexOutOfBoundsException();
 	}
     }
     public Object set(int index, Object o){
@@ -83,8 +82,7 @@ public class SuperArray{
 	    data[index] = o;
 	    return replaced;
 	}else{
-	    System.out.println("Error: index out of range");
-	    return null;
+	    throw new IndexOutOfBoundsException();
 	}
     }
     public Object remove(int index){
@@ -101,8 +99,7 @@ public class SuperArray{
 	    }
 	    return removed;
 	}else{
-	    System.out.println("Error: index out of range");
-	    return null;
+	    throw new IndexOutOfBoundsException();
 	}
     }
 }
