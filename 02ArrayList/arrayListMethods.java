@@ -2,7 +2,7 @@ import java.util.*;
 public class arrayListMethods{
     public static void main(String[]args){
 	ArrayList<Integer> L = new ArrayList<Integer>();
-	L.add(1);
+        L.add(1);
 	L.add(1);
 	L.add(3);
 	L.add(4);
