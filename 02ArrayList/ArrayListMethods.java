@@ -1,5 +1,5 @@
 import java.util.*;
-public class arrayListMethods{
+public class ArrayListMethods{
     public static void main(String[]args){
 	ArrayList<Integer> L = new ArrayList<Integer>();
         L.add(1);
@@ -9,18 +9,18 @@ public class arrayListMethods{
 	L.add(3);
 	L.add(3);
 	System.out.println(L);
-        arrayListMethods.collapseDuplicates(L);
+        ArrayListMethods.collapseDuplicates(L);
 	System.out.println(L);
 	ArrayList<Integer> L2 = new ArrayList<Integer>();
 	for (int i = 0; i < 10; i++){
 	    L2.add(i);
 	}
 	System.out.println(L2);
-	arrayListMethods.randomize(L2);
+	ArrayListMethods.randomize(L2);
 	System.out.println(L2);
-	arrayListMethods.randomize(L2);
+	ArrayListMethods.randomize(L2);
 	System.out.println(L2);
-	arrayListMethods.randomize(L2);
+	ArrayListMethods.randomize(L2);
 	System.out.println(L2);
     }
     public static void collapseDuplicates(ArrayList<Integer> L){
