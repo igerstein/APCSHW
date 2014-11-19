@@ -54,12 +54,27 @@ public class WordGrid{
      *@return true when the word is added successfully. When the word doesn't fit,
      *or there are overlapping letters that do not match, then false is returned.
      */
-    /* public boolean addWordHorizontal(String word,int row, int col){
-       }*/
+     public boolean addWordHorizontal(String word,int row, int col){
+	 boolean added = word.length() <= data[row].length - col;
+	 if (added){
+	     for (int i = col; i < col + word.length(); i++){
+		 if (data[row][i] != ' ' && data[row][i] != word.charAt(i - col)){
+		     added = false;
+		 }
+	     }
+	 }
+	 if (added){
+	     for (int i = col; i < col + word.length(); i++){
+		 data[row][i] = word.charAt(i - col);
+	     }
+	 }
+	 return added;
+     }
 
     //vertical + diagonal should be implemented as well.
     public static void main(String[]args){
 	WordGrid a = new WordGrid(6, 6);
+	a.addWordHorizontal("test", 3, 1);
 	System.out.println(a);
     }
 }
