@@ -72,6 +72,41 @@ public class WordGrid{
      }
 
     //vertical + diagonal should be implemented as well.
+
+    /**Returns the maximum value in the 2d parameter array.
+     */
+    public static int max(int[][] ary){
+	int max = ary[0][0];
+	for (int i = 0; i < ary.length; i++){
+	    for (int j = 0; j < ary[i].length; j++){
+		if (ary[i][j] > max){
+		    max = ary[i][j];
+		}
+	    }
+	}
+	return max;
+    }
+    
+    /**Returns the sum of the elements in Row x of ary.
+     */ 
+    public static int rowSum(int[][] ary, int x){
+	int sum = 0;
+	for (int i = 0; i < ary[x].length; i++){
+	    sum += ary[x][i];
+	}
+	return sum;
+    }
+
+    /**Checks if the array is square(i.e. every row has the same length as AR itself).
+     */
+    public static boolean isSquare(int[][] AR){
+	for (int i = 0; i < AR.length; i++){
+	    if (AR.length != AR[i].length){
+		return false;
+	    }
+	}
+	return true;
+    }
     public static void main(String[]args){
 	WordGrid a = new WordGrid(6, 6);
 	a.addWordHorizontal("test", 3, 1);
