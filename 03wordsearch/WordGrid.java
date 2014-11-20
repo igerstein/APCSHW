@@ -107,6 +107,60 @@ public class WordGrid{
 	}
 	return true;
     }
+
+    /**Calculates the row sum for every row and returns each of the values in an array. Index i of the return array contains the sum of elements in row i.
+     */
+    public static int[] allRowSums(int[][] AR){
+	int[] sums = new int[AR.length];
+	for (int i = 0; i < AR.length; i++){
+	    sums[i] = rowSum(AR, i);
+	}
+	return sums;
+    }
+    
+    /**Returns the sum of the elements in Column x of AR.
+     */
+    public static int columnSum(int[][] AR, int x){
+	int sum = 0;
+	for (int i = 0; i < AR.length; i++){
+	    if (x < AR[i].length){
+		sum += AR[i][x];
+	    }
+	}
+	return sum;
+    }
+
+    /**Checks if the array is row-magic (every row has the same row sum).
+     */
+    public static boolean isRowMagic(int[][] AR){
+	for (int i = 0; i < AR.length; i++){
+	    if (rowSum(AR, i) != rowSum(AR, 0)){
+		return false;
+	    }
+	}
+	return true;
+    }
+
+    /**Checks if the array is column-magic (every column has the same column sum).
+     */
+    public static boolean isColumnMagic(int[][] AR){
+	boolean isEqual = true;
+	for (int i = 0; i < AR.length; i++){
+	    if (AR[i].length != AR[0].length){
+		isEqual = false;
+	    }
+	}
+	if (isEqual){
+	    for (int i = 0; i < AR[0].length; i++){
+		if (columnSum(AR, i) != columnSum(AR, 0)){
+		    return false;
+		}
+	    }
+	    return true;
+	}
+	return false;
+    }
+
     public static void main(String[]args){
 	WordGrid a = new WordGrid(6, 6);
 	a.addWordHorizontal("test", 3, 1);
