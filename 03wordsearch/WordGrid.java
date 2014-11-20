@@ -71,7 +71,32 @@ public class WordGrid{
 	 return added;
      }
 
-    //vertical + diagonal should be implemented as well.
+    /**Attempts to add a given word to the specified position of the WordGrid.
+     *The word is added from up to down, must fit on the WordGrid, and must
+     *have a corresponding letter to match any letters that it overlaps.
+     *
+     *@param word is any text to be added to the word grid.
+     *@param row is the vertical locaiton of where you want the word to start.
+     *@param col is the horizontal location of where you want the word to start.
+     *@return true when the word is added successfully. When the word doesn't fit,
+     *or there are overlapping letters that do not match, then false is returned.
+     */
+    public boolean addWordVertical(String word, int row, int col){
+	boolean added = word.length() <= data.length - row;
+	if (added){
+	    for (int i = row; i < row + word.length(); i++){
+		if (data[i][col] != ' ' && data[i][col] != word.charAt(i - row)){
+		    added = false;
+		}
+	    }
+	}
+	if (added){
+	    for (int i = row; i < row + word.length(); i++){
+		data[i][col] = word.charAt(i - row);
+	    }
+	}
+	return added;
+    }
 
     /**Returns the maximum value in the 2d parameter array.
      */
@@ -163,7 +188,8 @@ public class WordGrid{
 
     public static void main(String[]args){
 	WordGrid a = new WordGrid(6, 6);
-	a.addWordHorizontal("test", 3, 1);
+	a.addWordHorizontal("test", 1, 1);
+	a.addWordVertical("test", 1, 4);
 	System.out.println(a);
     }
 }
