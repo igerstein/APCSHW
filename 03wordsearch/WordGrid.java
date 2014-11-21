@@ -45,84 +45,66 @@ public class WordGrid{
     }
 
     /**Attempts to add a given word to the specified position of the WordGrid.
-     *The word is added from left to right, must fit on the WordGrid, and must
-     *have a corresponding letter to match any letters that it overlaps.
-     *
+     *The word is added from left to right, top to bottom, or top-left to bottom-right, depending on direction.
+     *It must fit on the WordGrid, and must have a corresponding letter to match any letters that it overlaps.
      *@param word is any text to be added to the word grid.
      *@param row is the vertical locaiton of where you want the word to start.
      *@param col is the horizontal location of where you want the word to start.
+     *@param direction is an integer from 1 to 3, determining whether the word is added horizontally, vertically, or diagonally.
      *@return true when the word is added successfully. When the word doesn't fit,
      *or there are overlapping letters that do not match, then false is returned.
      */
-     public boolean addWordHorizontal(String word,int row, int col){
-	 boolean added = word.length() <= data[row].length - col;
-	 if (added){
-	     for (int i = col; i < col + word.length(); i++){
-		 if (data[row][i] != ' ' && data[row][i] != word.charAt(i - col)){
-		     added = false;
-		 }
-	     }
-	 }
-	 if (added){
-	     for (int i = col; i < col + word.length(); i++){
-		 data[row][i] = word.charAt(i - col);
-	     }
-	 }
-	 return added;
-     }
-
-    /**Attempts to add a given word to the specified position of the WordGrid.
-     *The word is added from up to down, must fit on the WordGrid, and must
-     *have a corresponding letter to match any letters that it overlaps.
-     *
-     *@param word is any text to be added to the word grid.
-     *@param row is the vertical locaiton of where you want the word to start.
-     *@param col is the horizontal location of where you want the word to start.
-     *@return true when the word is added successfully. When the word doesn't fit,
-     *or there are overlapping letters that do not match, then false is returned.
-     */
-    public boolean addWordVertical(String word, int row, int col){
-	boolean added = word.length() <= data.length - row;
-	if (added){
-	    for (int i = row; i < row + word.length(); i++){
-		if (data[i][col] != ' ' && data[i][col] != word.charAt(i - row)){
-		    added = false;
+    public boolean addWord(String word, int row, int col, int direction){
+	boolean canAddH = word.length() <= data[row].length - col;
+	boolean canAddV = word.length() <= data.length - row;
+	if (direction < 1 || direction > 3){
+	    throw new IndexOutOfBoundsException();
+	}else if (direction == 1){
+	    boolean added = canAddH;
+	    if (added){
+		for (int i = col; i < col + word.length(); i++){
+		    if (data[row][i] != ' ' && data[row][i] != word.charAt(i - col)){
+			added = false;
+		    }
 		}
 	    }
-	}
-	if (added){
-	    for (int i = row; i < row + word.length(); i++){
-		data[i][col] = word.charAt(i - row);
-	    }
-	}
-	return added;
-    }
-
-    /**Attempts to add a given word to the specified position of the WordGrid.
-     *The word is added from top-left to bottom-right, must fit on the WordGrid, and must
-     *have a corresponding letter to match any letters that it overlaps.
-     *
-     *@param word is any text to be added to the word grid.
-     *@param row is the vertical locaiton of where you want the word to start.
-     *@param col is the horizontal location of where you want the word to start.
-     *@return true when the word is added successfully. When the word doesn't fit,
-     *or there are overlapping letters that do not match, then false is returned.
-     */
-    public boolean addWordDiagonal(String word, int row, int col){
-	boolean added = word.length() <= data[row].length - col && word.length() <= data.length - row;
-	if (added){
-	    for (int i = col; i < col + word.length(); i++){
-		if (data[row - col + i][i] != ' ' && data[row - col + i][i] != word.charAt(i - col)){
-		    added = false;
+	    if (added){
+		for (int i = col; i < col + word.length(); i++){
+		    data[row][i] = word.charAt(i - col);
 		}
 	    }
-	}
-	if (added){
-	    for (int i = col; i < col + word.length(); i++){
-		data[row - col + i][i] = word.charAt(i - col);
+	    return added;
+	}else if (direction == 2){
+	    boolean added = canAddV;
+	    if (added){
+		for (int i = row; i < row + word.length(); i++){
+		    if (data[i][col] != ' ' && data[i][col] != word.charAt(i - row)){
+			added = false;
+		    }
+		}
 	    }
+	    if (added){
+		for (int i = row; i < row + word.length(); i++){
+		    data[i][col] = word.charAt(i - row);
+		}
+	    }
+	    return added;
+	}else{
+	    boolean added = canAddH && canAddV;
+	    if (added){
+		for (int i = col; i < col + word.length(); i++){
+		    if (data[row - col + i][i] != ' ' && data[row - col + i][i] != word.charAt(i - col)){
+			added = false;
+		    }
+		}
+	    }
+	    if (added){
+		for (int i = col; i < col + word.length(); i++){
+		    data[row - col + i][i] = word.charAt(i - col);
+		}
+	    }
+	    return added;
 	}
-	return added;
     }
 
     /**Returns the maximum value in the 2d parameter array.
@@ -215,9 +197,9 @@ public class WordGrid{
 
     public static void main(String[]args){
 	WordGrid a = new WordGrid(6, 6);
-	a.addWordHorizontal("test", 1, 1);
-	a.addWordVertical("test", 1, 4);
-	a.addWordDiagonal("test", 1, 1);
+	a.addWord("test", 1, 1, 1);
+	a.addWord("test", 1, 4, 2);
+	a.addWord("test", 1, 1, 3);
 	System.out.println(a);
     }
 }
