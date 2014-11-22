@@ -1,3 +1,5 @@
+import java.io.*;
+import java.util.*;
 public class WordGrid{
     private char[][]data;
 
@@ -6,11 +8,37 @@ public class WordGrid{
      *@param row is the starting height of the WordGrid
      *@param col is the starting width of the WordGrid
      */
-    public WordGrid(int rows,int cols){
+    public WordGrid(int rows,int cols) throws FileNotFoundException{
 	data = new char[rows][cols];
 	for (int i = 0; i < rows; i++){
 	    for (int j = 0; j < cols; j++){
 		data[i][j] = ' ';
+	    }
+	}
+	File infile = new File("Words.txt");
+	Scanner sc = new Scanner(infile);	
+	ArrayList<String> L = new ArrayList<String>();
+	while (sc.hasNext()){
+	    L.add(sc.next());
+	}
+	Random r = new Random();
+	for (int i = 0; i < L.size(); i++){
+	    boolean added = false;
+	    for (int j = 0; j < 1000 && !added; j++){
+		int row = r.nextInt(data.length);
+		int col = r.nextInt(data[row].length);
+		int direction = r.nextInt(6) + 1;
+		for (int k = 0; !added && k < 7; k++){
+		    if (addWord(L.get(i), row, col, direction)){
+			addWord(L.get(i), row, col, direction);
+			added = true;
+		    }else{
+			direction++;
+			if (direction > 6){
+			    direction -= 6;
+			}
+		    }
+		}
 	    }
 	}
     }
@@ -50,11 +78,15 @@ public class WordGrid{
      *@param word is any text to be added to the word grid.
      *@param row is the vertical locaiton of where you want the word to start.
      *@param col is the horizontal location of where you want the word to start.
-     *@param direction is an integer from 1 to 3, determining whether the word is added horizontally, vertically, or diagonally.
+     *@param direction is an integer from 1 to 6. 1 or 4 adds the word horizontally, 2 or 5 adds it vertically, and 3 or 6 adds it diagonally. From 4 to 6, the word's order is reversed.
      *@return true when the word is added successfully. When the word doesn't fit,
      *or there are overlapping letters that do not match, then false is returned.
      */
     public boolean addWord(String word, int row, int col, int direction){
+	if (direction > 3 && direction < 7){
+	    word = reverse(word);
+	    direction -= 3;
+	}
 	boolean canAddH = word.length() <= data[row].length - col;
 	boolean canAddV = word.length() <= data.length - row;
 	if (direction < 1 || direction > 3){
@@ -105,6 +137,16 @@ public class WordGrid{
 	    }
 	    return added;
 	}
+    }
+
+    /**Reverses the order of the given string.
+     */
+    public static String reverse(String str){
+	String ans = "";
+	for (int i = str.length() - 1; i >= 0; i--){
+	    ans += str.charAt(i);
+	}
+	return ans;
     }
 
     /**Returns the maximum value in the 2d parameter array.
@@ -195,11 +237,8 @@ public class WordGrid{
 	return false;
     }
 
-    public static void main(String[]args){
-	WordGrid a = new WordGrid(6, 6);
-	a.addWord("test", 1, 1, 1);
-	a.addWord("test", 1, 4, 2);
-	a.addWord("test", 1, 1, 3);
+    public static void main(String[]args) throws FileNotFoundException{
+	WordGrid a = new WordGrid(15, 15);
 	System.out.println(a);
     }
 }
