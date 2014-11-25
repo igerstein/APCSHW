@@ -4,7 +4,7 @@ public class WordGrid{
     private char[][]data;
 
     /**Initialize the grid to the size specified and fill all of the positions
-     *with spaces.
+     *with underscores.
      *@param row is the starting height of the WordGrid
      *@param col is the starting width of the WordGrid
      */
@@ -12,7 +12,7 @@ public class WordGrid{
 	data = new char[rows][cols];
 	for (int i = 0; i < rows; i++){
 	    for (int j = 0; j < cols; j++){
-		data[i][j] = ' ';
+		data[i][j] = '_';
 	    }
 	}
 	File infile = new File("Words.txt");
@@ -27,16 +27,12 @@ public class WordGrid{
 	    for (int j = 0; j < 1000 && !added; j++){
 		int row = r.nextInt(data.length);
 		int col = r.nextInt(data[row].length);
-		int direction = r.nextInt(6) + 1;
-		for (int k = 0; !added && k < 7; k++){
-		    if (addWord(L.get(i), row, col, direction)){
-			addWord(L.get(i), row, col, direction);
+		for (int k = 0; !added && k < 20; k++){
+		    int dx = r.nextInt(3) - 1;
+		    int dy = r.nextInt(3) - 1;
+		    if (addWord(L.get(i), row, col, dx, dy)){
+			addWord(L.get(i), row, col, dx, dy);
 			added = true;
-		    }else{
-			direction++;
-			if (direction > 6){
-			    direction -= 6;
-			}
 		    }
 		}
 	    }
@@ -73,70 +69,44 @@ public class WordGrid{
     }
 
     /**Attempts to add a given word to the specified position of the WordGrid.
-     *The word is added from left to right, top to bottom, or top-left to bottom-right, depending on direction.
      *It must fit on the WordGrid, and must have a corresponding letter to match any letters that it overlaps.
      *@param word is any text to be added to the word grid.
      *@param row is the vertical locaiton of where you want the word to start.
      *@param col is the horizontal location of where you want the word to start.
-     *@param direction is an integer from 1 to 6. 1 or 4 adds the word horizontally, 2 or 5 adds it vertically, and 3 or 6 adds it diagonally. From 4 to 6, the word's order is reversed.
+     *@param dx is an integer from -1 to 1 determining the vertical direction of the word.
+     *@param dy is an integer from -1 to 1 determining the horizontal direction of the word. 
      *@return true when the word is added successfully. When the word doesn't fit,
      *or there are overlapping letters that do not match, then false is returned.
      */
-    public boolean addWord(String word, int row, int col, int direction){
-	if (direction > 3 && direction < 7){
-	    word = reverse(word);
-	    direction -= 3;
-	}
-	boolean canAddH = word.length() <= data[row].length - col;
-	boolean canAddV = word.length() <= data.length - row;
-	if (direction < 1 || direction > 3){
-	    throw new IndexOutOfBoundsException();
-	}else if (direction == 1){
-	    boolean added = canAddH;
-	    if (added){
-		for (int i = col; i < col + word.length(); i++){
-		    if (data[row][i] != ' ' && data[row][i] != word.charAt(i - col)){
-			added = false;
-		    }
-		}
+    public boolean addWord(String word, int row, int col, int dx, int dy){
+	if (checkWord(word, row, col, dx, dy)){
+	    for (int i = 0; i < word.length(); i++){
+		data[row][col] = word.charAt(i);
+		row += dx;
+		col += dy;
 	    }
-	    if (added){
-		for (int i = col; i < col + word.length(); i++){
-		    data[row][i] = word.charAt(i - col);
-		}
-	    }
-	    return added;
-	}else if (direction == 2){
-	    boolean added = canAddV;
-	    if (added){
-		for (int i = row; i < row + word.length(); i++){
-		    if (data[i][col] != ' ' && data[i][col] != word.charAt(i - row)){
-			added = false;
-		    }
-		}
-	    }
-	    if (added){
-		for (int i = row; i < row + word.length(); i++){
-		    data[i][col] = word.charAt(i - row);
-		}
-	    }
-	    return added;
+	    return true;
 	}else{
-	    boolean added = canAddH && canAddV;
-	    if (added){
-		for (int i = col; i < col + word.length(); i++){
-		    if (data[row - col + i][i] != ' ' && data[row - col + i][i] != word.charAt(i - col)){
-			added = false;
-		    }
-		}
-	    }
-	    if (added){
-		for (int i = col; i < col + word.length(); i++){
-		    data[row - col + i][i] = word.charAt(i - col);
-		}
-	    }
-	    return added;
+	    return false;
 	}
+    }
+
+    /**Checks if a word can be added to the WordGrid given the parameters of addWord.
+     *@return true when the word can be added, and false otherwise.
+     */
+    public boolean checkWord(String word, int row, int col, int dx, int dy){
+	if (dx == 0 && dy == 0 || row + dx * word.length() < 0 || row + dx * word.length() > data.length || col + dy * word.length() < 0 || col + dy * word.length() > data[row].length){
+	    return false;
+	}else{
+	    for (int i = 0; i < word.length(); i++){
+		if (data[row][col] != '_' && data[row][col] != word.charAt(i)){
+		    return false;
+		}
+		row += dx;
+		col += dy;
+	    }
+	}
+	return true;
     }
 
     /**Reverses the order of the given string.
