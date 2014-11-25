@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.*;
 public class WordGrid{
+    Random r = new Random();
     private char[][]data;
 
     /**Initialize the grid to the size specified and fill all of the positions
@@ -8,20 +9,32 @@ public class WordGrid{
      *@param row is the starting height of the WordGrid
      *@param col is the starting width of the WordGrid
      */
-    public WordGrid(int rows,int cols) throws FileNotFoundException{
+    public WordGrid(int rows, int cols){
 	data = new char[rows][cols];
 	for (int i = 0; i < rows; i++){
 	    for (int j = 0; j < cols; j++){
 		data[i][j] = '_';
 	    }
 	}
+    }
+
+    /**Create a list of words from a file.
+     */
+    public ArrayList<String> createList() throws FileNotFoundException{
 	File infile = new File("Words.txt");
-	Scanner sc = new Scanner(infile);	
+	Scanner sc = new Scanner(infile);
 	ArrayList<String> L = new ArrayList<String>();
 	while (sc.hasNext()){
 	    L.add(sc.next());
 	}
-	Random r = new Random();
+	return L;
+    }
+
+    /**Add a list of words randomly to the WordGrid.
+     *@param L is the list of words
+     */
+    public ArrayList<String> addWordList(ArrayList<String> L){
+	ArrayList<String> wordsAdded = new ArrayList<String>();
 	for (int i = 0; i < L.size(); i++){
 	    boolean added = false;
 	    for (int j = 0; j < 1000 && !added; j++){
@@ -33,7 +46,21 @@ public class WordGrid{
 		    if (addWord(L.get(i), row, col, dx, dy)){
 			addWord(L.get(i), row, col, dx, dy);
 			added = true;
+			wordsAdded.add(L.get(i));
 		    }
+		}
+	    }
+	}
+	return wordsAdded;
+    }
+
+    /**Fill in the underscores with random characters.
+     */
+    public void fillGrid(){
+	for (int i = 0; i < data.length; i++){
+	    for (int j = 0; j < data[i].length; j++){
+		if (data[i][j] == '_'){
+		    data[i][j] = (char)(r.nextInt(26) + 'a');
 		}
 	    }
 	}
@@ -43,7 +70,7 @@ public class WordGrid{
     private void clear(){
 	for (int i = 0; i < data.length; i++){
 	    for (int j = 0; j < data[i].length; j++){
-		data[i][j] = ' ';
+		data[i][j] = '_';
 	    }
 	}
     }
@@ -205,11 +232,6 @@ public class WordGrid{
 	    return true;
 	}
 	return false;
-    }
-
-    public static void main(String[]args) throws FileNotFoundException{
-	WordGrid a = new WordGrid(15, 15);
-	System.out.println(a);
     }
 }
 
