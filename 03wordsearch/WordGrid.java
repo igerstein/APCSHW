@@ -1,7 +1,8 @@
 import java.io.*;
 import java.util.*;
 public class WordGrid{
-    Random r = new Random();
+    Random r;
+    ArrayList<String> addedWords;
     private char[][]data;
 
     /**Initialize the grid to the size specified and fill all of the positions
@@ -10,6 +11,8 @@ public class WordGrid{
      *@param col is the starting width of the WordGrid
      */
     public WordGrid(int rows, int cols){
+	r = new Random();
+	addedWords = new ArrayList<String>();
 	data = new char[rows][cols];
 	for (int i = 0; i < rows; i++){
 	    for (int j = 0; j < cols; j++){
@@ -18,23 +21,27 @@ public class WordGrid{
 	}
     }
 
-    /**Create a list of words from a file.
+    /**Load words from a file into the WordGrid.
+     *@param filename is the name of the file containing words.
+     *@param fillRandomLetters is whether the WordGrid will be filled with random letters.
      */
-    public ArrayList<String> createList() throws FileNotFoundException{
-	File infile = new File("Words.txt");
+    public void loadWordsFromFile(String filename, boolean fillRandomLetters) throws FileNotFoundException{
+	File infile = new File(filename);
 	Scanner sc = new Scanner(infile);
 	ArrayList<String> L = new ArrayList<String>();
 	while (sc.hasNext()){
 	    L.add(sc.next());
 	}
-	return L;
+        addManyWordsToList(L);
+	if (fillRandomLetters){
+	    fillGrid();
+	}
     }
 
     /**Add a list of words randomly to the WordGrid.
      *@param L is the list of words
      */
-    public ArrayList<String> addWordList(ArrayList<String> L){
-	ArrayList<String> wordsAdded = new ArrayList<String>();
+    public void addManyWordsToList(ArrayList<String> L){
 	for (int i = 0; i < L.size(); i++){
 	    boolean added = false;
 	    for (int j = 0; j < 1000 && !added; j++){
@@ -46,12 +53,11 @@ public class WordGrid{
 		    if (addWord(L.get(i), row, col, dx, dy)){
 			addWord(L.get(i), row, col, dx, dy);
 			added = true;
-			wordsAdded.add(L.get(i));
+			addedWords.add(L.get(i));
 		    }
 		}
 	    }
 	}
-	return wordsAdded;
     }
 
     /**Fill in the underscores with random characters.
@@ -64,6 +70,12 @@ public class WordGrid{
 		}
 	    }
 	}
+    }
+
+    /**Set the random seed of the WordGrid.
+     */
+    public void setSeed(long seed){
+	r.setSeed(seed);
     }
 
     /**Set all values in the WordGrid to spaces ' '*/
@@ -134,105 +146,7 @@ public class WordGrid{
 	    }
 	}
 	return true;
-    }
-
-    /**Reverses the order of the given string.
-     */
-    public static String reverse(String str){
-	String ans = "";
-	for (int i = str.length() - 1; i >= 0; i--){
-	    ans += str.charAt(i);
-	}
-	return ans;
-    }
-
-    /**Returns the maximum value in the 2d parameter array.
-     */
-    public static int max(int[][] ary){
-	int max = ary[0][0];
-	for (int i = 0; i < ary.length; i++){
-	    for (int j = 0; j < ary[i].length; j++){
-		if (ary[i][j] > max){
-		    max = ary[i][j];
-		}
-	    }
-	}
-	return max;
-    }
-    
-    /**Returns the sum of the elements in Row x of ary.
-     */ 
-    public static int rowSum(int[][] ary, int x){
-	int sum = 0;
-	for (int i = 0; i < ary[x].length; i++){
-	    sum += ary[x][i];
-	}
-	return sum;
-    }
-
-    /**Checks if the array is square(i.e. every row has the same length as AR itself).
-     */
-    public static boolean isSquare(int[][] AR){
-	for (int i = 0; i < AR.length; i++){
-	    if (AR.length != AR[i].length){
-		return false;
-	    }
-	}
-	return true;
-    }
-
-    /**Calculates the row sum for every row and returns each of the values in an array. Index i of the return array contains the sum of elements in row i.
-     */
-    public static int[] allRowSums(int[][] AR){
-	int[] sums = new int[AR.length];
-	for (int i = 0; i < AR.length; i++){
-	    sums[i] = rowSum(AR, i);
-	}
-	return sums;
-    }
-    
-    /**Returns the sum of the elements in Column x of AR.
-     */
-    public static int columnSum(int[][] AR, int x){
-	int sum = 0;
-	for (int i = 0; i < AR.length; i++){
-	    if (x < AR[i].length){
-		sum += AR[i][x];
-	    }
-	}
-	return sum;
-    }
-
-    /**Checks if the array is row-magic (every row has the same row sum).
-     */
-    public static boolean isRowMagic(int[][] AR){
-	for (int i = 0; i < AR.length; i++){
-	    if (rowSum(AR, i) != rowSum(AR, 0)){
-		return false;
-	    }
-	}
-	return true;
-    }
-
-    /**Checks if the array is column-magic (every column has the same column sum).
-     */
-    public static boolean isColumnMagic(int[][] AR){
-	boolean isEqual = true;
-	for (int i = 0; i < AR.length; i++){
-	    if (AR[i].length != AR[0].length){
-		isEqual = false;
-	    }
-	}
-	if (isEqual){
-	    for (int i = 0; i < AR[0].length; i++){
-		if (columnSum(AR, i) != columnSum(AR, 0)){
-		    return false;
-		}
-	    }
-	    return true;
-	}
-	return false;
-    }
+    }	
 }
 
 
