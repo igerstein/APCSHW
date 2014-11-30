@@ -60,6 +60,23 @@ public class WordGrid{
 	}
     }
 
+    /**Returns a formatted string of text with several successfully added words per line.
+     *@return the string.
+     */
+    public String wordsInPuzzle(){
+	String ans = "";
+	for (int i = 0; i < addedWords.size(); i++){
+	    if (i % 4 == 0){
+		ans += "\n";
+	    }
+	    for (int j = 0; j < 18 - addedWords.get(i).length(); j++){
+		ans += " ";
+	    }
+	    ans += addedWords.get(i);
+	}
+	return ans;
+    }
+
     /**Fill in the underscores with random characters.
      */
     public void fillGrid(){

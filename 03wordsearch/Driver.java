@@ -18,6 +18,7 @@ public class Driver{
 		w.setSeed(randomSeed);
 	    }
 	    w.loadWordsFromFile("Words.txt", !answers);
+	    System.out.println("Find these words:\n" + w.wordsInPuzzle());
 	    System.out.println(w);
 	}
 	catch (Exception e){
