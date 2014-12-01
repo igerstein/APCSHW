@@ -4,6 +4,7 @@ public class OrderedSuperArray extends SuperArray{
 	a.add("b");
 	a.add("c");
 	a.add("a");
+	a.set(2, "a");
 	System.out.println(a);
     }
     public OrderedSuperArray(){
@@ -28,5 +29,14 @@ public class OrderedSuperArray extends SuperArray{
     }
     public void add(int index, String e){
 	add(e);
+    }
+    public String set(int index, String e){
+	if (index >= 0 && index < currentLength){
+	    String replaced = remove(index);
+	    add(e);
+	    return replaced;
+	}else{
+	    throw new IndexOutOfBoundsException();
+	}
     }
 }
