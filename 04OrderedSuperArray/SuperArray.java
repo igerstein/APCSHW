@@ -1,6 +1,6 @@
 public class SuperArray{
-    private String[] data;
-    private int currentLength = 0;
+    String[] data;
+    int currentLength = 0;
     public SuperArray(){
 	data = new String[10];
     }
