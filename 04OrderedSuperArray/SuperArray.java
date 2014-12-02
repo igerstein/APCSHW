@@ -26,7 +26,7 @@ public class SuperArray{
 	currentLength++;
     }
     public void add(int index, String o){
-	if (index >= 0 && index < currentLength){
+	if (index >= 0 && index <= currentLength){
 	    if (currentLength == data.length){
 		resize(data.length * 2);
 	    }
