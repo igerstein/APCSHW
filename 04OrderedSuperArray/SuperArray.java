@@ -1,3 +1,4 @@
+import java.util.Arrays;
 public class SuperArray{
     String[] data;
     int currentLength = 0;
@@ -101,5 +102,14 @@ public class SuperArray{
 	    }
 	    data[j] = current;
 	}
+    }	
+    public void badInsertionSort(){
+        OrderedSuperArray c = new OrderedSuperArray();
+        while( this.size() > 0){ 
+            c.add(this.remove(0));
+        }
+        while(c.size() > 0){
+            this.add(c.remove(0));
+        }
     }
 }
