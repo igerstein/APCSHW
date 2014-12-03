@@ -89,4 +89,17 @@ public class SuperArray{
 	    throw new IndexOutOfBoundsException();
 	}
     }
+    public void insertionSort(){
+	for (int i = 1; i < currentLength; i++){
+	    String current = data[i];
+	    int j = 0;
+	    while (j < i && current.compareTo(data[j]) > 0){
+		j++;
+	    }
+	    for (int k = i; k > j; k--){
+		data[k] = data[k - 1];
+	    }
+	    data[j] = current;
+	}
+    }
 }
