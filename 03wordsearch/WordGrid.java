@@ -42,21 +42,23 @@ public class WordGrid{
      *@param L is the list of words
      */
     public void addManyWordsToList(ArrayList<String> L){
-	for (int i = 0; i < L.size(); i++){
+	while (L.size() > 0){
+	    int index = r.nextInt(L.size());
 	    boolean added = false;
-	    for (int j = 0; j < 1000 && !added; j++){
+	    for (int i = 0; i < 1000 && !added; i++){
 		int row = r.nextInt(data.length);
 		int col = r.nextInt(data[row].length);
-		for (int k = 0; !added && k < 20; k++){
+		for (int j = 0; !added && j < 20; j++){
 		    int dx = r.nextInt(3) - 1;
 		    int dy = r.nextInt(3) - 1;
-		    if (addWord(L.get(i), row, col, dx, dy)){
-			addWord(L.get(i), row, col, dx, dy);
+		    if (addWord(L.get(index), row, col, dx, dy)){
+			addWord(L.get(index), row, col, dx, dy);
 			added = true;
-			addedWords.add(L.get(i));
+			addedWords.add(L.get(index));
 		    }
 		}
 	    }
+	    L.remove(index);
 	}
     }
 
