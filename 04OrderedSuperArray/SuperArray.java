@@ -112,4 +112,12 @@ public class SuperArray{
             this.add(c.remove(0));
         }
     }
+    public int find(String target){
+	for (int i = 0; i < currentLength; i++){
+	    if (data[i].equals(target)){
+		return i;
+	    }
+	}
+	return -1;
+    }
 }
