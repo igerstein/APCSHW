@@ -120,4 +120,18 @@ public class SuperArray{
 	}
 	return -1;
     }
+    public void selectionSort(){
+	for (int i = 0; i < currentLength; i++){
+	    String lowest = data[i];
+	    int swapIndex = i;
+	    for (int j = i; j < currentLength; j++){
+		if (data[j].compareTo(lowest) < 0){
+		    lowest = data[j];
+		    swapIndex = j;
+		}
+	    }
+	    data[swapIndex] = data[i];
+	    data[i] = lowest;
+	}
+    }
 }
