@@ -7,6 +7,7 @@ public class OrderedSuperArray extends SuperArray{
 	a.add("c");
 	a.add("e");
 	a.add("d");
+	System.out.println(a);
 	System.out.println(a.find("a"));
 	System.out.println(a.find("b"));
 	System.out.println(a.find("c"));
@@ -39,37 +40,18 @@ public class OrderedSuperArray extends SuperArray{
 	}
     }
     public int find(String target){
-	String[] dataCopy = new String[data.length];
-	int firstCurrentLength = currentLength;
-	for (int i = 0; i < data.length; i++){
-	    dataCopy[i] = data[i];
+	return find(Arrays.copyOfRange(data, 0, currentLength), target, 0, Arrays.copyOfRange(data, 0, currentLength).length - 1);
+    }
+    public int find(String[] data, String target, int low, int high){
+	int middle = (low + high) / 2;
+	if (low > high){
+	    return -1;
+	}else if (data[middle].equals(target)){
+	    return middle;
+	}else if (data[middle].compareTo(target) < 0){
+	    return find(data, target, middle + 1, high);
+	}else{
+	    return find(data, target, low, middle - 1);
 	}
-	int index = -1;
-	int added = 0;
-	while (currentLength > 0){
-	    int i = currentLength / 2;
-	    if (data[i].equals(target)){
-	        index = i;
-		break;
-	    }else if (data[i].compareTo(target) < 0){
-		for (int j = 0; j <= i; j++){
-		    remove(0);
-		    added++;
-		}
-	    }else if (data[i].compareTo(target) > 0){
-		int num = currentLength;
-		for (int j = i; j < num; j++){
-		    remove(i);
-		}
-	    }
-	}
-	for (int i = 0; i < dataCopy.length; i++){
-	    data[i] = dataCopy[i];
-	}
-	currentLength = firstCurrentLength;
-	if (index != -1){
-	    index += added;
-	}
-	return index;
     }
 }
