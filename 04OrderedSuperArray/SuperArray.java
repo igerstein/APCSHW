@@ -134,4 +134,7 @@ public class SuperArray{
 	    data[i] = lowest;
 	}
     }
+    public void arraySort(){
+	Arrays.sort(data);
+    }
 }
