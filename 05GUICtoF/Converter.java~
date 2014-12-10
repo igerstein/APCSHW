@@ -1,0 +1,18 @@
+import javax.swing.*;
+import java.awt.*;
+public class Converter extends JFrame{
+    private Container pane;
+    private JLabel l;
+    public Converter(){
+	this.setTitle("Celsius-Fahrenheit converter");
+	this.setSize(600, 400);
+	pane = this.getContentPane();
+	pane.setLayout(new FlowLayout());
+	l = new JLabel("Test", null, JLabel.CENTER);
+	pane.add(l);
+    }
+    public static void main(String[]args){
+	Converter a = new Converter();
+	a.setVisible(true);
+    }
+}
