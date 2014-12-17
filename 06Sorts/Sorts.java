@@ -1,11 +1,15 @@
+import java.util.*;
 public class Sorts{
     public static int[] bubble(int[]c){
-	for (int i = 0; i < c.length; i++){
+	boolean sorted = false;
+	for (int i = 0; i < c.length && !sorted; i++){
+	    sorted = true;
 	    for (int j = 0; j < c.length - i - 1; j++){
 		if (c[j] > c[j + 1]){
 		    int a = c[j];
 		    c[j] = c[j + 1];
 		    c[j + 1] = a;
+		    sorted = false;
 		}
 	    }
 	}
@@ -14,14 +18,11 @@ public class Sorts{
     public static int[] insertion(int[]c){
 	for (int i = 1; i < c.length; i++){
 	    int current = c[i];
-	    int j = 0;
-	    while (j < i && current > c[j]){
-		j++;
+	    int j;
+	    for (j = i - 1; j > -1 && c[j] > current; j--){
+		c[j + 1] = c[j];
 	    }
-	    for (int k = i; k > j; k--){
-		c[k] = c[k - 1];
-	    }
-	    c[j] = current;
+	    c[j + 1] = current;
 	}
 	return c;
     }	
