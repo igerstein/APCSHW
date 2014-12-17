@@ -23,7 +23,7 @@ public class Sorts{
 	}
 	return c;
     }
-    public static int[] insert(int[]c){
+    public static int[] insertion(int[]c){
 	for (int i = 1; i < c.length; i++){
 	    int current = c[i];
 	    int j = 0;
@@ -37,7 +37,7 @@ public class Sorts{
 	}
 	return c;
     }	
-    public static int[] select(int[]c){
+    public static int[] selection(int[]c){
 	for (int i = 0; i < c.length; i++){
 	    int lowest = c[i];
 	    int swapIndex = i;
