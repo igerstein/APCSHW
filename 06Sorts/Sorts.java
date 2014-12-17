@@ -1,16 +1,4 @@
-import java.util.*;
 public class Sorts{
-    public static void main(String[]args){
-	int[] a = {3, 1, 4, 0, 2, 5};
-	int[] b = {3, 1, 4, 0, 2, 5};
-	int[] c = {3, 1, 4, 0, 2, 5};
-	Sorts.bubble(a);
-	Sorts.insert(b);
-	Sorts.select(c);
-	System.out.println(Arrays.toString(a));
-	System.out.println(Arrays.toString(b));
-	System.out.println(Arrays.toString(c));
-    }
     public static int[] bubble(int[]c){
 	for (int i = 0; i < c.length; i++){
 	    for (int j = 0; j < c.length - i - 1; j++){
