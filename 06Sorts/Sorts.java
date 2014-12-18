@@ -1,5 +1,11 @@
 import java.util.*;
 public class Sorts{
+    public static String name(){
+	return "Gerstein, Isaac";
+    }
+    public static int period(){
+	return 7;
+    }
     public static int[] bubble(int[]c){
 	boolean sorted = false;
 	for (int i = 0; i < c.length && !sorted; i++){
